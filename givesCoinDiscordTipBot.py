@@ -36,7 +36,7 @@ logger = logging.getLogger(BOTNAME)
 logger.setLevel(logging.INFO)
 logger.addHandler(fh)
 
-bot = commands.Bot(command_prefix='!') 
+bot = commands.Bot(command_prefix='!')
 bot.remove_command('help')
 
 
@@ -70,26 +70,26 @@ async def info(ctx):
       ```
       commands like *!tip* & *!withdraw* have a specfic format,\
     use them like so:
-     
-     Tipping format: 
+
+     Tipping format:
        `!tip @[user] [amount]        (without brackets)`
-       
-     Rain format: 
+
+     Rain format:
        `!rain [amount]               (without brackets)`
-          
-     Withdrawing format: 
+
+     Withdrawing format:
        `!withdraw [address] [amount] (without brackets)`
 
 
         WHERE:
-            `[address] = withdraw #$PAC address`
+            `[address] = withdraw #$GIVES address`
             `[user] = discord username`
-            `[amount] = amount of #$PAC to utilise`
+            `[amount] = amount of #$GIVES to utilise`
 
      *NOTE*:
-      - don't deposit a significant amount of #$PAC through this #BOT
-      - make sure that you enter a valid #$PAC address when you perform a withdraw
-      - we are not responsible of your funds if something bad happen to this #BOT 
+      - don't deposit a significant amount of #$GIVES through this #BOT
+      - make sure that you enter a valid #$GIVES address when you perform a withdraw
+      - we are not responsible of your funds if something bad happen to this #BOT
      ```
           USE THIS #BOT AT YOUR OWN RISK
      ```
@@ -121,9 +121,9 @@ async def balance(ctx):
         return False
 
     cmd = [
-        APP_EXE, 
+        APP_EXE,
         '-rpcuser=bitcoin',
-        '-rpcpassword=local321', 
+        '-rpcpassword=local321',
         'getbalance',
         str(user_uuid)
     ]
@@ -138,7 +138,7 @@ async def balance(ctx):
     balance = float(ret)
     balance = str('{:,.8f}'.format(balance))
 
-    msg = '@{0} your current balance is: {1} $PAC'.format(user_name, balance)
+    msg = '@{0} your current balance is: {1} $GIVES'.format(user_name, balance)
     embed = discord.Embed(color=discord.Color.green())
     embed.add_field(name="BALANCE", value=msg, inline=True)
 
@@ -165,12 +165,12 @@ async def deposit(ctx):
         return False
 
     cmd = [
-        APP_EXE, 
+        APP_EXE,
         '-rpcuser=bitcoin',
-        '-rpcpassword=local321', 
+        '-rpcpassword=local321',
         'getaccountaddress',
         str(user_uuid)
-    ] 
+    ]
     ret = rpc_call(cmd)
     if ret is None:
         msg = 'rpc internal error!'
@@ -204,7 +204,7 @@ async def tip(ctx):
         embed.add_field(name="ERROR", value=msg, inline=True)
         await bot.say(embed=embed)
         return False
-    
+
     message = ctx.message.content.split(' ')
     if len(message) != 3:
         msg = "Please use !tip <username> <amount>!"
@@ -232,7 +232,7 @@ async def tip(ctx):
     target_uuid = str(''.join(uuid))
 
     if amount > 100000 or amount < 1:
-        msg = "Please send value between 1 and 100,000 $PAC!"
+        msg = "Please send value between 1 and 100,000 $GIVES!"
         embed = discord.Embed(color=discord.Color.red())
         embed.add_field(name="ERROR", value=msg, inline=True)
         await bot.say(embed=embed)
@@ -256,9 +256,9 @@ async def tip(ctx):
         return False
 
     cmd = [
-        APP_EXE, 
+        APP_EXE,
         '-rpcuser=bitcoin',
-        '-rpcpassword=local321', 
+        '-rpcpassword=local321',
         'getbalance',
         str(user_uuid)
     ]
@@ -296,13 +296,13 @@ async def tip(ctx):
         await bot.say(embed=embed)
         return False
 
-    msg = '@{0} tipped {1} of {2} $PAC'.format(user_name, target, amount)
+    msg = '@{0} tipped {1} of {2} $GIVES'.format(user_name, target, amount)
     embed = discord.Embed(color=discord.Color.green())
     embed.add_field(name="TIP", value=msg, inline=True)
 
     await bot.say(embed=embed)
 
-    
+
 @bot.command(pass_context=True)
 async def rain(ctx):
     user_name = ctx.message.author.name
@@ -320,7 +320,7 @@ async def rain(ctx):
         embed.add_field(name="ERROR", value=msg, inline=True)
         await bot.say(embed=embed)
         return False
-    
+
     message = ctx.message.content.split(' ')
     if len(message) != 2:
         msg = "Please use !rain <amount>!"
@@ -338,16 +338,16 @@ async def rain(ctx):
     amount = float(message[1])
 
     if amount > 100000 or amount < 1:
-        msg = "Please send value between 1 and 100,000 $PAC!"
+        msg = "Please send value between 1 and 100,000 $GIVES!"
         embed = discord.Embed(color=discord.Color.red())
         embed.add_field(name="ERROR", value=msg, inline=True)
         await bot.say(embed=embed)
         return False
 
     cmd = [
-        APP_EXE, 
+        APP_EXE,
         '-rpcuser=bitcoin',
-        '-rpcpassword=local321', 
+        '-rpcpassword=local321',
         'getbalance',
         str(user_uuid)
     ]
@@ -399,7 +399,7 @@ async def rain(ctx):
           return False
 
     user_list = ",".join(users_online.values())
-    msg = "{} invoked rain spell with {} $PAC over #{} users ({})"\
+    msg = "{} invoked rain spell with {} $GIVES over #{} users ({})"\
           .format(user_name, pamount, online, user_list)
     embed = discord.Embed(color=discord.Color.green())
     embed.add_field(name="RAIN", value=msg, inline=True)
@@ -434,7 +434,7 @@ async def withdraw(ctx):
         return False
 
     if not isValidAddress(message[1]):
-        msg = 'Please input a valid $PAC address!'
+        msg = 'Please input a valid $GIVES address!'
         embed = discord.Embed(color=discord.Color.red())
         embed.add_field(name="ERROR", value=msg, inline=True)
         await bot.say(embed=embed)
@@ -450,9 +450,9 @@ async def withdraw(ctx):
     address = message[1]
 
     cmd = [
-        APP_EXE, 
+        APP_EXE,
         '-rpcuser=bitcoin',
-        '-rpcpassword=local321', 
+        '-rpcpassword=local321',
         'getbalance' ,
         str(user_uuid)
     ]
@@ -489,7 +489,7 @@ async def withdraw(ctx):
         await bot.say(embed=embed)
         return False
 
-    msg = '@{0} has successfully withdrew {2} $PAC to address: {1}'\
+    msg = '@{0} has successfully withdrew {2} $GIVES to address: {1}'\
               .format(user_name, address, amount)
     embed = discord.Embed(color=discord.Color.green())
     embed.add_field(name="WITHDRAW", value=msg, inline=True)
@@ -498,14 +498,14 @@ async def withdraw(ctx):
 
 
 def yobit(market):
-    getmarket = 'https://yobit.net/api/3/ticker/pac_'+market.lower()
+    getmarket = 'https://yobit.net/api/3/ticker/give_'+market.lower()
     response  = requests.get(getmarket)
     json_data = response.json()
 
-    if not json_data or not json_data.get('pac_btc') or json_data.get('error'):
+    if not json_data or not json_data.get('give_btc') or json_data.get('error'):
       return {}
 
-    json_data = json_data.get('pac_btc')
+    json_data = json_data.get('give_btc')
     message = {}
 
     message['*LastPrice*'] = '{:,.8f}'.format(float(json_data['last']))
@@ -518,13 +518,13 @@ def yobit(market):
 
 
 def cryptopia(market):
-    getmarket = 'https://www.cryptopia.co.nz/api/GetMarket/$PAC_'+market
+    getmarket = 'https://www.cryptopia.co.nz/api/GetMarket/$GIVES_'+market
     response  = requests.get(getmarket)
     json_data = response.json()
 
     if not json_data or json_data.get('error'):
       return {}
-    if not json_data['Data']: 
+    if not json_data['Data']:
       return {}
 
     message = {}
@@ -537,7 +537,7 @@ def cryptopia(market):
     return message
 
 def tradesatoshi(market):
-    getmarket = 'https://tradesatoshi.com/api/public/GetTicker?market=$PAC_'+market
+    getmarket = 'https://tradesatoshi.com/api/public/GetTicker?market=$GIVES_'+market
     response  = requests.get(getmarket)
     json_data = response.json()
 
@@ -620,7 +620,7 @@ async def moon(ctx):
 async def hi(ctx):
     name = ctx.message.author.name
     uuid = ctx.message.author.id
-    
+
     msg = 'Hello @{}[{}], how are you doing today?'.format(name, uuid)
 
     await bot.say(msg)
@@ -698,4 +698,3 @@ def isValidAmount(amount):
 
 if __name__ == '__main__':
     main()
-

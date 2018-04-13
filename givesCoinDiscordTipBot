@@ -1,19 +1,19 @@
 #! /bin/sh
 
 ### BEGIN INIT INFO
-# Provides:		pacCoinDiscordTipBot
+# Provides:		givesCoinDiscordTipBot
 # Required-Start:	$remote_fs $syslog
 # Required-Stop:	$remote_fs $syslog
 # Default-Start:	2 3 4 5
-# Default-Stop:		
-# Short-Description:	pacCoinDiscordTipBot server
+# Default-Stop:
+# Short-Description:	givesCoinDiscordTipBot server
 ### END INIT INFO
 
 set -e
 
-# /etc/init.d/pacCoinDiscordTipBot: start and stop the pacCoinDiscordTipBot daemon
+# /etc/init.d/givesCoinDiscordTipBot: start and stop the givesCoinDiscordTipBot daemon
 
-test -x /opt/pacCoinTipBot/pacCoinDiscordTipBot.py || exit 0
+test -x /opt/givesCoinTipBot/givesCoinDiscordTipBot.py || exit 0
 
 umask 022
 
@@ -52,8 +52,8 @@ case "$1" in
   start)
 	check_for_upstart 1
 	check_dev_null
-	log_daemon_msg "Starting pacCoinDiscordTipBot server" "PacCoin" || true
-	if start-stop-daemon --start --background --quiet --oknodo -u root -p root -m --pidfile /var/run/pacCoinDiscordTipBot.pid --exec /usr/bin/python3 /opt/pacCoinTipBot/pacCoinDiscordTipBot.py -- $BOT_OPTS; then
+	log_daemon_msg "Starting givesCoinDiscordTipBot server" "GivesCoin" || true
+	if start-stop-daemon --start --background --quiet --oknodo -u root -p root -m --pidfile /var/run/givesCoinDiscordTipBot.pid --exec /usr/bin/python3 /opt/givesCoinTipBot/givesCoinDiscordTipBot.py -- $BOT_OPTS; then
 	    log_end_msg 0 || true
 	else
 	    log_end_msg 1 || true
@@ -61,8 +61,8 @@ case "$1" in
 	;;
   stop)
 	check_for_upstart 0
-	log_daemon_msg "Stopping pacCoinDiscordTipBot server" "PacCoin" || true
-	if start-stop-daemon --stop --quiet --retry 30 --pidfile /var/run/pacCoinDiscordTipBot.pid; then
+	log_daemon_msg "Stopping givesCoinDiscordTipBot server" "GivesCoin" || true
+	if start-stop-daemon --stop --quiet --retry 30 --pidfile /var/run/givesCoinDiscordTipBot.pid; then
 	    log_end_msg 0 || true
 	else
 	    log_end_msg 1 || true
@@ -71,10 +71,10 @@ case "$1" in
 
   restart)
 	check_for_upstart 1
-	log_daemon_msg "Restarting pacCoinDiscordTipBot server" "PacCoin" || true
-	start-stop-daemon --stop --quiet --oknodo --retry 30 --pidfile /var/run/pacCoinDiscordTipBot.pid
+	log_daemon_msg "Restarting givesCoinDiscordTipBot server" "GivesCoin" || true
+	start-stop-daemon --stop --quiet --oknodo --retry 30 --pidfile /var/run/givesCoinDiscordTipBot.pid
 	check_dev_null log_end_msg
-	if start-stop-daemon --start --background --quiet --oknodo -u root -p root -m --pidfile /var/run/pacCoinDiscordTipBot.pid --exec /usr/bin/python3 /opt/pacCoinTipBot/pacCoinDiscordTipBot.py -- $BOT_OPTS; then
+	if start-stop-daemon --start --background --quiet --oknodo -u root -p root -m --pidfile /var/run/givesCoinDiscordTipBot.pid --exec /usr/bin/python3 /opt/givesCoinTipBot/givesCoinDiscordTipBot.py -- $BOT_OPTS; then
 	    log_end_msg 0 || true
 	else
 	    log_end_msg 1 || true
@@ -83,11 +83,11 @@ case "$1" in
 
   status)
 	check_for_upstart 1
-	status_of_proc -p /var/run/pacCoinDiscordTipBot.pid /opt/pacCoinTipBot/pacCoinDiscordTipBot.py pacCoinDiscordTipBot && exit 0 || exit $?
+	status_of_proc -p /var/run/givesCoinDiscordTipBot.pid /opt/givesCoinTipBot/givesCoinDiscordTipBot.py givesCoinDiscordTipBot && exit 0 || exit $?
 	;;
 
   *)
-	log_action_msg "Usage: /etc/init.d/pacCoinDiscordTipBot {start|stop|restart|status}" || true
+	log_action_msg "Usage: /etc/init.d/givesCoinDiscordTipBot {start|stop|restart|status}" || true
 	exit 1
 esac
 

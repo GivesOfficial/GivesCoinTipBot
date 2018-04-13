@@ -43,7 +43,7 @@ logger.addHandler(fh)
 db = pickledb.load(DB_FILE, True)
 
 def main():
-    
+
     updater = Updater(TOKEN, workers=10)
 
     dp = updater.dispatcher
@@ -73,7 +73,7 @@ def getUserID(bot, update, username):
     users = db.getall()
     for uid in users:
         user = db.get(uid)
-        
+
         if user != username:
             continue
 
@@ -81,7 +81,7 @@ def getUserID(bot, update, username):
         user_name = user_data.user.username
 
         db.set(str(uid), user_name)
- 
+
         if username == user_name:
             value = uid
 
@@ -131,24 +131,24 @@ def info(bot, update):
       ```
       commands like */tip* & */withdraw* have a specfic format,\
     use them like so:
-     
-     Tipping format: 
+
+     Tipping format:
        `/tip @[user] [amount]        (without brackets)`
-     
-     Withdrawing format: 
+
+     Withdrawing format:
        `/withdraw [address] [amount] (without brackets)`
 
      WHERE:
-    ` 
-       [address] = withdraw #PacCoin address
-          [user] = telegram username 
-        [amount] = amount of #pacCoin to utilise 
+    `
+       [address] = withdraw #GivesCoin address
+          [user] = telegram username
+        [amount] = amount of #GivesCoin to utilise
     `
 
      *NOTE*:
-      - don't deposit a significant amount of #PacCoin through this #BOT
-      - make sure that you enter a valid #PacCoin address when you perform a withdraw
-      - we are not responsible of your funds if something bad happen to this #BOT 
+      - don't deposit a significant amount of #GivesCoin through this #BOT
+      - make sure that you enter a valid #GivesCoin address when you perform a withdraw
+      - we are not responsible of your funds if something bad happen to this #BOT
      ```
           USE THIS #BOT AT YOUR OWN RISK
      ```
@@ -207,7 +207,7 @@ def tip(bot, update):
     target = (message[1])[1:]
 
     if amount > 100000:
-        msg = "Please send a lower amount (max: 100,000 PacCoin)!"
+        msg = "Please send a lower amount (max: 100,000 GivesCoin)!"
         send_message(bot, chat_uuid, msg, False)
         return False
     if target == user_name:
@@ -224,12 +224,12 @@ def tip(bot, update):
         return False
 
     result = subprocess.run([
-        APP_EXE, 
+        APP_EXE,
         '-rpcuser=bitcoin',
-        '-rpcpassword=local321', 
+        '-rpcpassword=local321',
         'getbalance',
         str(user_uuid)
-    ], 
+    ],
     stdout=subprocess.PIPE)
 
     balance = float(result.stdout.strip().decode('utf-8'))
@@ -247,10 +247,10 @@ def tip(bot, update):
         str(user_uuid),
         str(target_uuid),
         str(amount),
-    ], 
+    ],
     stdout=subprocess.PIPE)
 
-    msg = '@{0} tipped @{1} of {2} PacCoin'.format(user_name, target, amount)
+    msg = '@{0} tipped @{1} of {2} GivesCoin'.format(user_name, target, amount)
     send_message(bot, chat_uuid, msg, False)
 
     return True
@@ -268,19 +268,19 @@ def balance(bot, update):
         return False
 
     result = subprocess.run([
-        APP_EXE, 
+        APP_EXE,
         '-rpcuser=bitcoin',
-        '-rpcpassword=local321', 
+        '-rpcpassword=local321',
         'getbalance',
         str(user_uuid)
-    ], 
+    ],
     stdout=subprocess.PIPE)
     clean = result.stdout.strip().decode('utf-8')
 
     balance = float(clean)
     balance = str('{:,.8f}'.format(balance))
 
-    msg = '@{0} your current balance is: {1} PacCoin'.format(user_name, balance)
+    msg = '@{0} your current balance is: {1} GivesCoin'.format(user_name, balance)
     send_message(bot, chat_uuid, msg, False)
 
     return True
@@ -298,12 +298,12 @@ def deposit(bot, update):
         return False
 
     result = subprocess.run([
-        APP_EXE, 
+        APP_EXE,
         '-rpcuser=bitcoin',
-        '-rpcpassword=local321', 
+        '-rpcpassword=local321',
         'getaccountaddress',
         str(user_uuid)
-    ], 
+    ],
     stdout=subprocess.PIPE)
     clean = result.stdout.strip().decode('utf-8')
 
@@ -332,7 +332,7 @@ def withdraw(bot, update):
         send_message(bot, chat_uuid, msg, False)
         return False
     if not isValidAddress(message[1]):
-        msg = 'Please input a valid PacCoin address!'
+        msg = 'Please input a valid GivesCoin address!'
         send_message(bot, chat_uuid, msg, False)
         return False
     if not isValidAmount(message[2]):
@@ -344,12 +344,12 @@ def withdraw(bot, update):
     address = message[1]
 
     result = subprocess.run([
-        APP_EXE, 
+        APP_EXE,
         '-rpcuser=bitcoin',
-        '-rpcpassword=local321', 
+        '-rpcpassword=local321',
         'getbalance',
         str(user_uuid)
-    ], 
+    ],
     stdout=subprocess.PIPE)
     clean = result.stdout.strip().decode('utf-8')
 
@@ -367,10 +367,10 @@ def withdraw(bot, update):
         str(user_uuid),
         str(address),
         str(amount),
-    ], 
+    ],
     stdout=subprocess.PIPE)
 
-    msg = '@{0} has successfully withdrew {2} PacCoin to address: {1}'\
+    msg = '@{0} has successfully withdrew {2} GivesCoin to address: {1}'\
               .format(user_name, address, amount)
     send_message(bot, chat_uuid, msg, False)
 
@@ -380,10 +380,10 @@ def withdraw(bot, update):
 def price(bot, update):
     chat_uuid = update.message.chat_id
 
-    getmarket = 'https://chart.meanxtrade.com/info.php?market=PacCoin_LTC'
+    getmarket = 'https://chart.meanxtrade.com/info.php?market=GivesCoin_LTC'
     response  = requests.get(getmarket)
     json_data = response.json()
-    
+
     if not json_data:
         msg = 'Failed to get data from cryptopia exchange!'
         send_message(bot, chat_uuid, msg, False)
@@ -479,4 +479,3 @@ def isValidAmount(amount):
 
 if __name__ == '__main__':
     main()
-
