@@ -8,7 +8,7 @@ sudo apt-get install git
 
 ## Install:
 ```bash
-git clone https://github.com/valgilbert/PacCoinTipBot
+git clone https://github.com/valgilbert/GivesCoinTipBot
 bash ~/pacCoinTipBot/install.sh
 ```
 
@@ -16,19 +16,19 @@ bash ~/pacCoinTipBot/install.sh
 ```bash 
 Telegram TipBOT
 
-sudo systemctl enable pacCoinTelegramTipBot    (to enable TipBot at boot)
-sudo systemctl start pacCoinTelegramTipBot     (to start TipBot)
-sudo systemctl stop pacCoinTelegramTipBot      (to stop TipBot)
-sudo systemctl restart pacCoinTelegramTipBot   (to restart TipBot)
-sudo systemctl status pacCoinTelegramTipBot    (to view status of TipBot process)
+sudo systemctl enable givesCoinTelegramTipBot    (to enable TipBot at boot)
+sudo systemctl start givesCoinTelegramTipBot     (to start TipBot)
+sudo systemctl stop givesCoinTelegramTipBot      (to stop TipBot)
+sudo systemctl restart givesCoinTelegramTipBot   (to restart TipBot)
+sudo systemctl status pgivesCoinTelegramTipBot    (to view status of TipBot process)
 
 Discord TipBOT
 
-sudo systemctl enable pacCoinDiscordTipBot    (to enable TipBot at boot)
-sudo systemctl start pacCoinDiscordTipBot     (to start TipBot)
-sudo systemctl stop pacCoinDiscordTipBot      (to stop TipBot)
-sudo systemctl restart pacCoinDiscordTipBot   (to restart TipBot)
-sudo systemctl status pacCoinDiscordTipBot    (to view status of TipBot process)
+sudo systemctl enable givesCoinDiscordTipBot    (to enable TipBot at boot)
+sudo systemctl start givesCoinDiscordTipBot     (to start TipBot)
+sudo systemctl stop givesCoinDiscordTipBot      (to stop TipBot)
+sudo systemctl restart givesCoinDiscordTipBot   (to restart TipBot)
+sudo systemctl status givesCoinDiscordTipBot    (to view status of TipBot process)
 ```
 
 ## Telegram
